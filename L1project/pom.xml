@@ -84,14 +84,8 @@
 					<outjar>${project.build.finalName}.jar</outjar>
 					<obfuscate>true</obfuscate>
 					<options>
-						<option>-dontoptimize</option>
-						<option>-dontshrink</option>
 						<option>-dontnote</option>
-						<option>-keepnames public class ru.kugach.artem.otus.Main</option>
-						<option>-keepclassmembernames class ru.kugach.artem.otus.Main {
-							public static void main(java.lang.String[]);
-							}
-						</option>
+						<option>-keep public class ru.kugach.artem.otus.Main{ public static void main(java.lang.String[]);}</option>
 					</options>
 					<libs>
 						<lib>${java.home}/lib/rt.jar</lib>
