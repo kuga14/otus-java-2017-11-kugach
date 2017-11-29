@@ -72,7 +72,7 @@
                 </dependencies>
                 <executions>
                     <execution>
-                        <phase>none</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>proguard</goal>
                         </goals>
@@ -81,11 +81,16 @@
                 <configuration>
                     <injar>${project.build.finalName}.jar</injar>
                     <outjar>${project.build.finalName}.jar</outjar>
-                    <obfuscate>true</obfuscate>
                     <options>
                         <option>-dontnote</option>
-                        <option>-dontshrink</option>
                         <option>-keep public class ru.kugach.artem.otus.Main{ public static void main(java.lang.String[]);}</option>
+                        <option>-keep class org.openjdk.jol.vm.InstrumentationSupport { public *;}</option>
+                        <option>-keep class org.openjdk.jol.vm.InstrumentationSupport$Installer { public protected *;}</option>
+                        <option>-keep class org.openjdk.jol.vm.sa.AttachMain {public static void main(java.lang.String[]);}</option>
+                        <option>-keep class org.openjdk.jol.vm.sa.SenseAccessMain {public static void main(java.lang.String[]);}</option>
+                        <option>-keep class org.openjdk.jol.vm.sa.ServiceabilityAgentSupport {public *;}</option>
+                        <option>-keep class org.openjdk.jol.vm.HotspotUnsafe {public protected private *;}</option>
+                        <option>-keep class org.openjdk.jol.vm.Experiments$* {public private *;}</option>
                     </options>
                     <libs>
                         <lib>${java.home}/lib/rt.jar</lib>

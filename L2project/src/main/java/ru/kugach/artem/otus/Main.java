@@ -4,51 +4,58 @@ package ru.kugach.artem.otus;
 import java.util.*;
 import org.openjdk.jol.info.ClassLayout;
 
+
         /**
          *
-         *   -XX:-UseTLAB -Xmx512m -Xms512m
+         *   JVM options: -XX:-UseTLAB -Xmx512m -Xms512m
          *
          */
 public class Main {
 
     public static void main(String... args) throws InterruptedException {
 
-        //Calc Primitive Wrapper
-        System.out.println( MemoryRate.toPrintble( () -> new Integer(0) ));
+        //Primitive Wrapper
+        System.out.println( MemoryRate.toPrintable( () -> new Integer(0) ));
         System.out.println( ClassLayout.parseInstance(new Integer(0)).toPrintable());
         System.out.println("------------------------------------------------------------------------\n");
 
-        //Calc Empty String
-        System.out.println( MemoryRate.toPrintble( () -> new String() ));
+        //Empty String
+        System.out.println( MemoryRate.toPrintable( () -> new String() ));
         System.out.println( ClassLayout.parseInstance(new String()).toPrintable());
         System.out.println("------------------------------------------------------------------------\n");
 
-        //Calc Empty List
-        System.out.println( MemoryRate.toPrintble( () -> new ArrayList<>() ));
+        //Empty List
+        System.out.println( MemoryRate.toPrintable( () -> new ArrayList<>() ));
         System.out.println( ClassLayout.parseInstance(new ArrayList<>()).toPrintable());
         System.out.println("------------------------------------------------------------------------\n");
-        System.out.println( MemoryRate.toPrintble( () -> new LinkedList<>() ));
+        System.out.println( MemoryRate.toPrintable( () -> new LinkedList<>() ));
         System.out.println( ClassLayout.parseInstance(new LinkedList<>()).toPrintable());
         System.out.println("------------------------------------------------------------------------\n");
 
-        //Calc Empty Set
-        System.out.println( MemoryRate.toPrintble( () -> new TreeSet<>() ));
+        //Empty Set
+        System.out.println( MemoryRate.toPrintable( () -> new TreeSet<>() ));
         System.out.println( ClassLayout.parseInstance(new TreeSet<>()).toPrintable());
         System.out.println("------------------------------------------------------------------------\n");
-        System.out.println( MemoryRate.toPrintble( () -> new LinkedHashSet<>() ));
+        System.out.println( MemoryRate.toPrintable( () -> new LinkedHashSet<>() ));
         System.out.println( ClassLayout.parseInstance(new LinkedHashSet<>()).toPrintable());
         System.out.println("------------------------------------------------------------------------\n");
-        System.out.println( MemoryRate.toPrintble( () -> new HashSet<>()));
+        System.out.println( MemoryRate.toPrintable( () -> new HashSet<>()));
         System.out.println( ClassLayout.parseInstance(new HashSet<>()).toPrintable());
         System.out.println("------------------------------------------------------------------------\n");
 
-        //Calc List
-        int i=1;
-        while(i<10_000_000){
-            System.out.println( MemoryRate.toPrintble( () -> new ArrayList<>() , i));
-            Thread.sleep(100);
-            i+=10*i;
+        //List of up to 1_000_000 elements
+        int j=0;
+        int i= (int) Math.pow(10,j);
+        while(i<1_000_000){
+            j+=1;
+            while(i< (int) Math.pow(10,j)) {
+                System.out.println(MemoryRate.toPrintable(() -> new ArrayList<>(), i));
+                Thread.sleep(100);
+                i+=(int) Math.pow(10,j-1);
+            }
+
         }
+        System.out.println(MemoryRate.toPrintable(() -> new ArrayList<>(), 1_000_000));
     }
 
 }

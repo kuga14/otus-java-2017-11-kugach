@@ -28,7 +28,7 @@ public class MemoryRate {
         private static long collectionCalcMemUsage(ObjectCreator factory,int elements) throws InterruptedException {
             Collection handle=null;
             gc();
-            int count = 10;
+            int count = 5;
             Object[] objects = new Object[count];
             long mem1 = usedMemory();
             for (int i = 0; i < count; i++) {
@@ -45,21 +45,22 @@ public class MemoryRate {
             return Math.round((float)(mem2 - mem1)/count);
         }
 
-        public static String toPrintble(ObjectCreator factory) throws InterruptedException {
+        public static String toPrintable(ObjectCreator factory) throws InterruptedException {
             long mem = calcMemUsage(factory);
             return factory.create().getClass().getCanonicalName() + " full size of instance = " + mem + " bytes\n";
         }
 
-        public static String toPrintble(ObjectCreator factory,int elementsCount) throws InterruptedException {
+        public static String toPrintable(ObjectCreator factory,int elementsCount) throws InterruptedException {
             long mem = collectionCalcMemUsage(factory,elementsCount);
-            return factory.create().getClass().getCanonicalName()+" "+elementsCount+" elements ," + " full size of instance = " + mem + " bytes\n";
+            return factory.create().getClass().getCanonicalName()+" of "+elementsCount+" elements ," + " full size of instance = " + mem + " bytes";
         }
 
-        public static void gc() throws InterruptedException {
+        private static void gc() throws InterruptedException {
             int i=0;
             while( i<5){
                 rt.gc ();
-                Thread.sleep(100);i++;
+                Thread.sleep(100);
+                i++;
             }
         }
 
