@@ -43,19 +43,18 @@ public class Main {
         System.out.println( ClassLayout.parseInstance(new HashSet<>()).toPrintable());
         System.out.println("------------------------------------------------------------------------\n");
 
-        //List of up to 1_000_000 elements
+        //List of up to 100_000 elements
         int j=0;
         int i= (int) Math.pow(10,j);
-        while(i<1_000_000){
+        while(i<100_000){
             j+=1;
             while(i< (int) Math.pow(10,j)) {
                 System.out.println(MemoryRate.toPrintable(() -> new ArrayList<>(), i));
                 Thread.sleep(100);
                 i+=(int) Math.pow(10,j-1);
             }
-
         }
-        System.out.println(MemoryRate.toPrintable(() -> new ArrayList<>(), 1_000_000));
+        System.out.println(MemoryRate.toPrintable(() -> new ArrayList<>(), 100_000));
     }
 
 }
