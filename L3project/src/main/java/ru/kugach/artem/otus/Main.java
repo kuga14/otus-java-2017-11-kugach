@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Main {
-    private static int BOUND= 10_000;
-    private static int START_COUNT= 10;
+    private static final int BOUND = 10_000;
+    private static final int START_COUNT = 10;
 
     public static void main(String[] args) {
         MyArrayList<Integer> srcList = new MyArrayList<Integer>();
