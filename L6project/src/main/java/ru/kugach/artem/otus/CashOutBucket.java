@@ -1,39 +1,29 @@
 package ru.kugach.artem.otus;
 
-public class CashOutBucket implements Comparable<CashOutBucket>{
-
-    private Nominal nominal;
-    private int count;
+public class CashOutBucket extends CashBucket implements Comparable<CashOutBucket>{
 
     CashOutBucket(Nominal nominal, int initCount) {
-        this.count = initCount;
-        this.nominal = nominal;
+        super();
+        notes.put(nominal,initCount);
     }
 
     public void cashOut(Nominal nominal, int count) {
         if(validate(nominal)){
-            this.count-=count;
+            int newCount = notes.get(nominal) - count;
+            notes.put(nominal,newCount);
         }
     }
 
     private boolean validate(Nominal nominal) {
-
-        return this.nominal.equals(nominal);
+        return  notes.containsKey(nominal);
     }
 
     public Nominal getNominal() {
-
-        return nominal;
+        return notes.entrySet().stream().findFirst().get().getKey();
     }
 
     public int getCount() {
-
-        return count;
-    }
-
-    public int getBalance(){
-
-        return count * nominal.getValue();
+        return notes.get(getNominal());
     }
 
     @Override
