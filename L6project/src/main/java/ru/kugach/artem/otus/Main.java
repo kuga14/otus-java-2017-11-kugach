@@ -20,13 +20,14 @@ public class Main {
         System.out.println("New balance: " + atm.getBalance());
 
         Map<Nominal, Integer> withdrawal = atm.withdraw(5700);
-        System.out.println("Withdraw 5700");
+        System.out.println("Withdraw: 5700");
         withdrawal.entrySet().stream().forEach((entry)-> System.out.println( entry.getValue()+ " x " + entry.getKey().getValue()+"$"));
         System.out.println("New balance: " + atm.getBalance());
 
         try{
             int notPerformedSum = startBalance-5700+100;
-            System.out.println();
+            System.out.println("CashOutBalance: "+atm.getPublicBalance());
+            System.out.println("Withdraw: " + notPerformedSum);
             atm.withdraw(notPerformedSum);
         } catch(RuntimeException re){
             System.out.println(re.getMessage());
