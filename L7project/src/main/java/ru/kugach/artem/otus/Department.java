@@ -1,27 +1,31 @@
 package ru.kugach.artem.otus;
 
-import java.util.ArrayList;
-
 public class Department {
 
-    private ArrayList<ATM> atmList;
+    private ATM root;
+
+    public ATM getRoot(){
+        return root;
+    }
 
     Department(int countATM, int minCountNotes, int maxCountNotes) {
-        atmList = new ArrayList<>();
+        root = new ATM(minCountNotes, maxCountNotes);
         for (int i = 0; i < countATM; i++) {
-            atmList.add(new ATM(minCountNotes, maxCountNotes));
+            root.add(new ATM(minCountNotes, maxCountNotes));
         }
     }
 
     public int getBalance() {
-        return atmList.stream().mapToInt(atm -> atm.getBalance()).sum();
+        int sum = root.getBalance();
+        ATM nextATM = root.next();
+        while( nextATM != null) {
+            sum+= nextATM.getBalance();
+            nextATM = nextATM.next();
+        }
+        return sum;
     }
 
     public void restore() {
-        atmList.stream().forEach(atm -> atm.restore());
-    }
-
-    public ATM getAtm(int index) {
-        return atmList.get(index);
+        root.restore();
     }
 }

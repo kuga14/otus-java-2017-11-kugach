@@ -11,9 +11,14 @@ public class Main {
         Department department = new Department(ATM_COUNT,MIN_NOTES_COUNT,MAX_NOTES_COUNT);
 
         System.out.println("Start ATM Department balance: " + department.getBalance());
-        for(int i=0;i<ATM_COUNT;i++){
-            department.getAtm(i).withdraw((i+1)*100);
-            System.out.println("Withdraw from " + i + " ATM " +": " + (i+1)*100);
+
+        ATM nextATM = department.getRoot().next();
+        int i=2;
+        while( nextATM != null) {
+            nextATM.withdraw(i*1200);
+            System.out.println("Withdraw from " + i + " ATM " +": " + i*1200);
+            nextATM = nextATM.next();
+            i++;
         }
         System.out.println("New ATM Department balance: "+department.getBalance());
 

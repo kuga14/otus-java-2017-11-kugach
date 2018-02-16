@@ -7,6 +7,7 @@ public class ATM implements  Cloneable{
     private CashInBucket cashInBucket;
     private SortedSet<CashOutBucket> cashOutBuckets;
     private Memento memento;
+    private ATM next;
 
     ATM(int minInitCount, int maxInitCount) {
         this.cashInBucket = new CashInBucket();
@@ -26,9 +27,25 @@ public class ATM implements  Cloneable{
         memento = new Memento();
     }
 
+    public ATM next(){
+        return next;
+    }
+
+
+    public void add(ATM atm) {
+        if (next == null) {
+            next = atm;
+        } else {
+            next.add(atm);
+        }
+    }
+
     public void restore() {
         cashInBucket = memento.getCashInBucketState();
         cashOutBuckets = memento.getCashOutBucketsState();
+        if (next != null) {
+            next.restore();
+        }
     }
 
     private class Memento {
