@@ -1,5 +1,9 @@
 package ru.kugach.artem.otus;
 
+import org.json.simple.JSONObject;
+
+import java.util.Objects;
+
 public class Course {
     int id;
     String name;
@@ -28,10 +32,27 @@ public class Course {
         if (obj == this) {
             return true;
         }
+        if (obj == null) {
+            return false;
+        }
         if (!(obj instanceof Course)) {
             return false;
         }
         Course c = (Course) obj;
         return id==c.id && name.equals(c.name) && teacher.equals(c.teacher);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id,name, teacher);
+    }
+
+    @Override
+    public String toString() {
+        JSONObject obj = new JSONObject();
+        obj.put("id",this.id);
+        obj.put("name",this.name);
+        obj.put("teacher",this.teacher);
+        return obj.toJSONString();
     }
 }

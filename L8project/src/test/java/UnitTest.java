@@ -28,7 +28,7 @@ public class UnitTest {
         gson = new Gson();
         myjson = new MyJSON();
         course = new Course(1,"Algebra","Ivanov");
-        student = new Student();
+        student = new Student("Artem");
     }
 
     @After
@@ -49,14 +49,38 @@ public class UnitTest {
         char c='0';
 
         // assert statements
-        assertEquals(gson.fromJson(gson.toJson(b),boolean.class), gson.fromJson(myjson.toJSON(b),boolean.class));
-        assertEquals(gson.fromJson(gson.toJson(bt),byte.class), gson.fromJson(myjson.toJSON(bt),byte.class));
-        assertEquals(gson.fromJson(gson.toJson(s),short.class), gson.fromJson(myjson.toJSON(s),short.class));
-        assertEquals(gson.fromJson(gson.toJson(i),int.class), gson.fromJson(myjson.toJSON(i),int.class));
-        assertEquals(gson.fromJson(gson.toJson(l),long.class), gson.fromJson(myjson.toJSON(l),long.class));
-        assertEquals(gson.fromJson(gson.toJson(d),double.class), gson.fromJson(myjson.toJSON(d),double.class));
-        assertEquals(gson.fromJson(gson.toJson(f),float.class), gson.fromJson(myjson.toJSON(f),float.class));
-        assertEquals(gson.fromJson(gson.toJson(c),char.class), gson.fromJson(myjson.toJSON(f),char.class));
+        assertEquals(
+                gson.fromJson(gson.toJson(b),boolean.class),
+                gson.fromJson(myjson.toJson(b),boolean.class)
+        );
+        assertEquals(
+                gson.fromJson(gson.toJson(bt),byte.class),
+                gson.fromJson(myjson.toJson(bt),byte.class)
+        );
+        assertEquals(
+                gson.fromJson(gson.toJson(s),short.class),
+                gson.fromJson(myjson.toJson(s),short.class)
+        );
+        assertEquals(
+                gson.fromJson(gson.toJson(i),int.class),
+                gson.fromJson(myjson.toJson(i),int.class)
+        );
+        assertEquals(
+                gson.fromJson(gson.toJson(l),long.class),
+                gson.fromJson(myjson.toJson(l),long.class)
+        );
+        assertEquals(
+                gson.fromJson(gson.toJson(d),double.class),
+                gson.fromJson(myjson.toJson(d),double.class)
+        );
+        assertEquals(
+                gson.fromJson(gson.toJson(f),float.class),
+                gson.fromJson(myjson.toJson(f),float.class)
+        );
+        assertEquals(
+                gson.fromJson(gson.toJson(c),char.class),
+                gson.fromJson(myjson.toJson(f),char.class)
+        );
     }
 
     @Test
@@ -71,20 +95,47 @@ public class UnitTest {
         Character c=new Character('0');
 
         // assert statements
-        assertEquals(gson.fromJson(gson.toJson(b),Boolean.class), gson.fromJson(myjson.toJSON(b),Boolean.class));
-        assertEquals(gson.fromJson(gson.toJson(bt),Byte.class), gson.fromJson(myjson.toJSON(bt),Byte.class));
-        assertEquals(gson.fromJson(gson.toJson(s),Short.class), gson.fromJson(myjson.toJSON(s),Short.class));
-        assertEquals(gson.fromJson(gson.toJson(i),Integer.class), gson.fromJson(myjson.toJSON(i),Integer.class));
-        assertEquals(gson.fromJson(gson.toJson(l),Long.class), gson.fromJson(myjson.toJSON(l),Long.class));
-        assertEquals(gson.fromJson(gson.toJson(d),Double.class), gson.fromJson(myjson.toJSON(d),Double.class));
-        assertEquals(gson.fromJson(gson.toJson(f),Float.class), gson.fromJson(myjson.toJSON(f),Float.class));
-        assertEquals(gson.fromJson(gson.toJson(c),Character.class), gson.fromJson(myjson.toJSON(f),Character.class));
+        assertEquals(
+                gson.fromJson(gson.toJson(b),Boolean.class),
+                gson.fromJson(myjson.toJson(b),Boolean.class)
+        );
+        assertEquals(
+                gson.fromJson(gson.toJson(bt),Byte.class),
+                gson.fromJson(myjson.toJson(bt),Byte.class)
+        );
+        assertEquals(
+                gson.fromJson(gson.toJson(s),Short.class),
+                gson.fromJson(myjson.toJson(s),Short.class)
+        );
+        assertEquals(
+                gson.fromJson(gson.toJson(i),Integer.class),
+                gson.fromJson(myjson.toJson(i),Integer.class)
+        );
+        assertEquals(
+                gson.fromJson(gson.toJson(l),Long.class),
+                gson.fromJson(myjson.toJson(l),Long.class)
+        );
+        assertEquals(
+                gson.fromJson(gson.toJson(d),Double.class),
+                gson.fromJson(myjson.toJson(d),Double.class)
+        );
+        assertEquals(
+                gson.fromJson(gson.toJson(f),Float.class),
+                gson.fromJson(myjson.toJson(f),Float.class)
+        );
+        assertEquals(
+                gson.fromJson(gson.toJson(c),Character.class),
+                gson.fromJson(myjson.toJson(f),Character.class)
+        );
     }
 
     @Test
     public void deserializationStringValue() {
         String str="String Example";
-        assertEquals(gson.fromJson(gson.toJson(str),String.class), gson.fromJson(myjson.toJSON(str),String.class));
+        assertEquals(
+                gson.fromJson(gson.toJson(str),String.class),
+                gson.fromJson(myjson.toJson(str),String.class)
+        );
     }
 
     @Test
@@ -94,7 +145,10 @@ public class UnitTest {
         for (int i=0;i<SIZE;i++){
             ints[i] = r.ints(Integer.MIN_VALUE,Integer.MAX_VALUE).findFirst().getAsInt();
         }
-        assertArrayEquals(gson.fromJson(gson.toJson(ints),ints.getClass()), gson.fromJson(myjson.toJSON(ints),ints.getClass()));
+        assertArrayEquals(
+                gson.fromJson(gson.toJson(ints),ints.getClass()),
+                gson.fromJson(myjson.toJson(ints),ints.getClass())
+        );
     }
 
     @Test
@@ -104,7 +158,10 @@ public class UnitTest {
         for (int i=0;i<SIZE;i++){
             ints[i] = new Integer(r.ints(Integer.MIN_VALUE,Integer.MAX_VALUE).findFirst().getAsInt());
         }
-        assertArrayEquals(gson.fromJson(gson.toJson(ints),ints.getClass()), gson.fromJson(myjson.toJSON(ints),ints.getClass()));
+        assertArrayEquals(
+                gson.fromJson(gson.toJson(ints),ints.getClass()),
+                gson.fromJson(myjson.toJson(ints),ints.getClass())
+        );
     }
 
     @Test
@@ -113,7 +170,10 @@ public class UnitTest {
         for (int i=0;i<SIZE;i++){
             strs[i] = new String("value:"+i);
         }
-        assertArrayEquals(gson.fromJson(gson.toJson(strs),strs.getClass()), gson.fromJson(myjson.toJSON(strs),strs.getClass()));
+        assertArrayEquals(
+                gson.fromJson(gson.toJson(strs),strs.getClass()),
+                gson.fromJson(myjson.toJson(strs),strs.getClass())
+        );
     }
 
     @Test
@@ -124,7 +184,7 @@ public class UnitTest {
             collectionSet.add(new String("value:"+i));
         }
         Set<String> collectionSetFromGSON = gson.fromJson(gson.toJson(collectionSet),itemsSetType);
-        Set<String> collectionSetFromMYJSON = gson.fromJson(myjson.toJSON(collectionSet),itemsSetType);
+        Set<String> collectionSetFromMYJSON = gson.fromJson(myjson.toJson(collectionSet),itemsSetType);
         assertEquals(collectionSetFromGSON, collectionSetFromMYJSON);
         collectionSet=null;
         collectionSetFromGSON=null;
@@ -136,7 +196,7 @@ public class UnitTest {
             collectionList.add(new String("value:"+i));
         }
         List<String> collectionListFromGSON = gson.fromJson(gson.toJson(collectionList),itemsListType);
-        List<String> collectionListFromMYJSON = gson.fromJson(myjson.toJSON(collectionList),itemsListType);
+        List<String> collectionListFromMYJSON = gson.fromJson(myjson.toJson(collectionList),itemsListType);
         assertEquals(collectionListFromGSON, collectionListFromMYJSON);
         collectionList=null;
         collectionListFromGSON=null;
@@ -151,7 +211,7 @@ public class UnitTest {
             collectionMap.put(new Integer(i), new String("value:"+i));
         }
         Map<Integer,String> collectionMapFromGSON = gson.fromJson(gson.toJson(collectionMap),itemsMapType);
-        Map<Integer,String> collectionMapFromMYJSON = gson.fromJson(myjson.toJSON(collectionMap),itemsMapType);
+        Map<Integer,String> collectionMapFromMYJSON = gson.fromJson(myjson.toJson(collectionMap),itemsMapType);
         assertEquals(collectionMapFromGSON, collectionMapFromMYJSON);
         collectionMap=null;
         collectionMapFromGSON=null;
@@ -161,12 +221,19 @@ public class UnitTest {
 
     @Test
     public void deserializationCourseObject() {
-        assertEquals(gson.fromJson(gson.toJson(course),course.getClass()), gson.fromJson(myjson.toJSON(course),course.getClass()));
+        assertEquals(
+                gson.fromJson(gson.toJson(course),course.getClass()),
+                gson.fromJson(myjson.toJson(course),course.getClass())
+        );
     }
 
     @Test
     public void deserializationStudentObject() {
         student.setMark(course,new Integer(5));
-        assertEquals(gson.fromJson(gson.toJson(course),course.getClass()), gson.fromJson(myjson.toJSON(course),course.getClass()));
+        assertEquals(
+                gson.fromJson(gson.toJson(student),student.getClass()),
+                gson.fromJson(myjson.toJson(student),student.getClass())
+        );
     }
 }
+

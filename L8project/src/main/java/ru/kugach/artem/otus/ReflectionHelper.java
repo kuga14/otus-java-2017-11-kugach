@@ -1,13 +1,12 @@
 package ru.kugach.artem.otus;
 
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
 
 public class ReflectionHelper {
 
-    private static boolean isWrapper(Class cls){
+    public static boolean isWrapper(Class cls){
         if(cls.equals(Boolean.class))
             return true;
         if(cls.equals(Byte.class))
