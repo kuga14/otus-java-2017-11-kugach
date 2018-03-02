@@ -58,11 +58,20 @@ public class MyJSON {
         if (key == null) {
             sb.append("null");
         }else {
-            sb.append(toJson(key));
+            sb.append(qouteKey(key));
         }
         sb.append(':');
         sb.append(toJson(value));
         return sb.toString();
+    }
+
+    private String qouteKey(Object key){
+        if (key instanceof Map || key instanceof String) {
+            return toJson(key);
+        } else {
+            return  "\""+toJson(key)+"\"";
+        }
+
     }
 
     private String toJSONString(List list) {
