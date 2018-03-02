@@ -46,7 +46,7 @@ public class MyJSON {
                 }
 
                 Map.Entry entry = (Map.Entry) iter.next();
-                toJSONString(String.valueOf(entry.getKey()), entry.getValue(), sb);
+                toJSONString(entry.getKey(), entry.getValue(), sb);
             }
 
             sb.append('}');
@@ -54,14 +54,13 @@ public class MyJSON {
         }
     }
 
-    private String toJSONString(String key, Object value, StringBuffer sb) {
-        sb.append('"');
+    private String toJSONString(Object key, Object value, StringBuffer sb) {
         if (key == null) {
             sb.append("null");
         }else {
-            sb.append(key);
+            sb.append(toJson(key));
         }
-        sb.append('"').append(':');
+        sb.append(':');
         sb.append(toJson(value));
         return sb.toString();
     }

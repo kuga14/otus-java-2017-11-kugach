@@ -1,7 +1,5 @@
 package ru.kugach.artem.otus;
 
-import org.json.simple.JSONObject;
-
 import java.util.Objects;
 
 public class Course {
@@ -45,14 +43,5 @@ public class Course {
     @Override
     public int hashCode() {
         return Objects.hash(id,name, teacher);
-    }
-
-    @Override
-    public String toString() {
-        JSONObject obj = new JSONObject();
-        obj.put("id",this.id);
-        obj.put("name",this.name);
-        obj.put("teacher",this.teacher);
-        return obj.toJSONString();
     }
 }

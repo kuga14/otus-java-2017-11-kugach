@@ -226,7 +226,7 @@ public class UnitTest {
                 gson.fromJson(myjson.toJson(course),course.getClass())
         );
     }
-
+/*
     @Test
     public void deserializationStudentObject() {
         student.setMark(course,new Integer(5));
@@ -234,6 +234,6 @@ public class UnitTest {
                 gson.fromJson(gson.toJson(student),student.getClass()),
                 gson.fromJson(myjson.toJson(student),student.getClass())
         );
-    }
+    }*/
 }
 
