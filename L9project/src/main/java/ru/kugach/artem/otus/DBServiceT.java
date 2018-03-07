@@ -128,7 +128,7 @@ public class DBServiceT extends DBServiceConnection {
     }
 
     public <T extends DataSet> void save(T object) throws  SQLException {
-        //dropeTable(object);
+        dropeTable(object);
         createTable(object);
         TExecutor executor = new TExecutor(getConnection());
         executor.execUpdate(createInsertQuery(object.getClass()),statement -> {
