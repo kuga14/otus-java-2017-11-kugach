@@ -1,7 +1,6 @@
-package ru.kugach.artem.otus;
+package ru.kugach.artem.otus.dbservice;
 
 import ru.kugach.artem.otus.base.DataSet;
-import ru.kugach.artem.otus.connection.DBServiceConnection;
 import ru.kugach.artem.otus.executor.TExecutor;
 import java.sql.SQLException;
 import java.sql.Types;

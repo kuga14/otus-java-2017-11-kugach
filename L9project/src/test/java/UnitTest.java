@@ -1,7 +1,7 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import ru.kugach.artem.otus.DBServiceT;
+import ru.kugach.artem.otus.dbservice.DBServiceT;
 import ru.kugach.artem.otus.Student;
 import static org.junit.Assert.assertEquals;
 

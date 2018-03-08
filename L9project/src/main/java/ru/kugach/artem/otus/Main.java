@@ -1,5 +1,7 @@
 package ru.kugach.artem.otus;
 
+import ru.kugach.artem.otus.dbservice.DBServiceT;
+
 public class Main {
     public static void main(String... args) throws Exception {
         new Main().run();

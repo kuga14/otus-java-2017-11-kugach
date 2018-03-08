@@ -1,4 +1,4 @@
-package ru.kugach.artem.otus.connection;
+package ru.kugach.artem.otus.dbservice;
 
 import ru.kugach.artem.otus.base.DBService;
 
