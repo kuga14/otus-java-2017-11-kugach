@@ -14,9 +14,11 @@ public class TExecutor {
             System.out.println("Load: "+query);
             stmt.setLong(1,id);
             stmt.execute();
-            ResultSet result = stmt.getResultSet();
-            T object = resultHandler.handle(result);
-            result.close();
+            T object;
+            try(ResultSet result = stmt.getResultSet()){
+                object = resultHandler.handle(result);
+
+            }
             return object;
         }
     }
