@@ -48,16 +48,6 @@ public class ReflectionHelper {
         return false;
     }
 
-    /*
-    static Object process(Object src) throws IllegalAccessException {
-        Class clazz  = src.getClass();
-        if(clazz.isPrimitive() || isWrapper(clazz) || clazz.equals(String.class) || Map.class.isAssignableFrom(clazz)){
-            return src;
-        } else{
-            return processObject(src);
-        }
-    }*/
-
     static Object getFieldValue(Object object, String name) {
         Field field = null;
         boolean isAccessible = true;
@@ -110,22 +100,5 @@ public class ReflectionHelper {
             }
         }
     }
-
-    /*
-    static Table<String, Class, Object> processObject(Object src) throws IllegalAccessException {
-        //Table<String,Class,Object> res = HashBasedTable.create();
-        List<Integer> rowsTable= Lists.newArrayList(1,2);
-        Class clazz  = src.getClass();
-        if(clazz != null){
-            Field[] fields = clazz.getDeclaredFields();
-            for(Field field : fields) {
-                field.setAccessible(true);
-                if ((field.getModifiers() & Modifier.TRANSIENT) == 0){
-                    res.put(field.getName(), field.getType(),(field.get(src)==null)? null : process(field.get(src)));//Guava.Table
-                }
-            }
-        }
-        return res;
-    }*/
 }
 

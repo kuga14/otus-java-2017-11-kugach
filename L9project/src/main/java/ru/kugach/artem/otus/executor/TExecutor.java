@@ -9,11 +9,15 @@ public class TExecutor {
         this.connection = connection;
     }
 
-    public <T> T execQuery(String query, TResultHandler<T> handler) throws SQLException {
-        try(Statement stmt = connection.createStatement()) {
-            stmt.execute(query);
+    public <T> T execSimpleSelect(String query, long id, TResultHandler<T> resultHandler) throws SQLException {
+        try(PreparedStatement stmt = connection.prepareStatement(query)) {
+            System.out.println("Load: "+query);
+            stmt.setLong(1,id);
+            stmt.execute();
             ResultSet result = stmt.getResultSet();
-            return handler.handle(result);
+            T object = resultHandler.handle(result);
+            result.close();
+            return object;
         }
     }
 
@@ -25,10 +29,9 @@ public class TExecutor {
     }
 
     public void execUpdate(String update, ExecuteHandler prepare) {
-        try {
-            PreparedStatement stmt = getConnection().prepareStatement(update);
+        try(PreparedStatement stmt = connection.prepareStatement(update)) {
+            System.out.println("Insert: "+update);
             prepare.accept(stmt);
-            stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

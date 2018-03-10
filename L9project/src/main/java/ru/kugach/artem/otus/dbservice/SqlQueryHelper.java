@@ -101,7 +101,7 @@ public class SqlQueryHelper {
         return clz.getSimpleName().toUpperCase();
     }
 
-    public static String createSelectQuery(Class<?> clz,Long id){
+    public static String createSelectQuery(Class<?> clz){
         StringBuffer str = new StringBuffer();
         str.append("SELECT ");
         str.append("id");
@@ -112,7 +112,7 @@ public class SqlQueryHelper {
         str.append(" FROM ");
         str.append(getQuotedTableName(clz));
         str.append(" WHERE ");
-        str.append("id="+id);
+        str.append("id=?");
         return str.toString();
     }
 

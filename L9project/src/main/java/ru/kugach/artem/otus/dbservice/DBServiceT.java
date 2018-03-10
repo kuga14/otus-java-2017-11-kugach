@@ -10,10 +10,18 @@ public class DBServiceT extends DBServiceConnection {
 
     private void execDDL(String query) throws SQLException {
         TExecutor executor = new TExecutor(getConnection());
+        getConnection().setAutoCommit(false);
         try{
-            executor.execUpdate(query);
-        } catch (java.sql.SQLSyntaxErrorException e){
-            System.out.println(query+"; "+e.getMessage());
+            try{
+                executor.execUpdate(query);
+            } catch (java.sql.SQLSyntaxErrorException e){
+                System.out.println(query+"; "+e.getMessage());
+            }
+            System.out.println("Exec DDL: "+query+";");
+            System.out.println("Commit;");
+            getConnection().commit();
+        } catch (SQLException e){
+            getConnection().rollback();
         }
     }
 
@@ -24,84 +32,90 @@ public class DBServiceT extends DBServiceConnection {
         execDDL(SqlQueryHelper.createTriggerDDL(object.getClass(),getDatabaseProductName()));
     }
 
-    private <T extends DataSet> void dropeTable(T object) throws SQLException {
+    private <T extends DataSet> void dropTable(T object) throws SQLException {
         execDDL(SqlQueryHelper.dropTableDDL(object.getClass()));
         execDDL(SqlQueryHelper.dropSequenceDDL(object.getClass()));
     }
 
     public <T extends DataSet> void save(T object) throws  SQLException {
-        dropeTable(object);
+        dropTable(object);
         createTable(object);
         TExecutor executor = new TExecutor(getConnection());
-        executor.execUpdate(SqlQueryHelper.createInsertQuery(object.getClass()),statement -> {
-                        int index=1;
-                        for(String fieldName : ReflectionHelper.getFieldNames(object.getClass())){
-                            Class fieldType =  ReflectionHelper.getFieldType(object.getClass(),fieldName);
-                            if(fieldType.equals(Byte.class)){
-                                Byte obj = (Byte)ReflectionHelper.getFieldValue(object,fieldName);
-                                if(obj == null){
-                                    statement.setNull(index, Types.VARBINARY);
+        getConnection().setAutoCommit(false);
+        try{
+            executor.execUpdate(SqlQueryHelper.createInsertQuery(object.getClass()),statement -> {
+                            int index=1;
+                            for(String fieldName : ReflectionHelper.getFieldNames(object.getClass())){
+                                Class fieldType =  ReflectionHelper.getFieldType(object.getClass(),fieldName);
+                                if(fieldType.equals(Byte.class)){
+                                    Byte obj = (Byte)ReflectionHelper.getFieldValue(object,fieldName);
+                                    if(obj == null){
+                                        statement.setNull(index, Types.VARBINARY);
+                                    } else {
+                                        statement.setByte(index,obj);
+                                    }
+                                } else if(fieldType.equals(Boolean.class)){
+                                    Boolean obj = (Boolean)ReflectionHelper.getFieldValue(object,fieldName);
+                                    if(obj == null){
+                                        statement.setNull(index, Types.BOOLEAN);
+                                    } else {
+                                        statement.setBoolean(index,obj);
+                                    }
+                                } else if(fieldType.equals(Short.class)){
+                                    Short obj = (Short)ReflectionHelper.getFieldValue(object,fieldName);
+                                    if(obj == null){
+                                        statement.setNull(index, Types.SMALLINT);
+                                    } else {
+                                        statement.setShort(index,obj);
+                                    }
+                                } else if(fieldType.equals(Integer.class)){
+                                    Integer obj = (Integer)ReflectionHelper.getFieldValue(object,fieldName) ;
+                                    if(obj == null){
+                                        statement.setNull(index, Types.INTEGER);
+                                    } else{
+                                        statement.setInt(index,obj);
+                                    }
+                                } else if(fieldType.equals(Long.class)){
+                                    Long obj = (Long)ReflectionHelper.getFieldValue(object,fieldName);
+                                    if(obj == null){
+                                        statement.setNull(index, Types.BIGINT);
+                                    } else {
+                                        statement.setLong(index,obj);
+                                    }
+                                } else if(fieldType.equals(Float.class)){
+                                    Float obj = (Float)ReflectionHelper.getFieldValue(object,fieldName);
+                                    if(obj == null){
+                                        statement.setNull(index, Types.FLOAT);
+                                    } else {
+                                        statement.setFloat(index,obj);
+                                    }
+                                } else if(fieldType.equals(Double.class)){
+                                    Double obj = (Double)ReflectionHelper.getFieldValue(object,fieldName);
+                                    if(obj == null){
+                                        statement.setNull(index, Types.DOUBLE);
+                                    } else {
+                                        statement.setDouble(index,obj);
+                                    }
+                                } else if(fieldType.equals(Character.class) || fieldType.equals(String.class)){
+                                    statement.setString(index,(String)ReflectionHelper.getFieldValue(object,fieldName));
                                 } else {
-                                    statement.setByte(index,obj);
+                                    statement.setObject(index,ReflectionHelper.getFieldValue(object,fieldName));
                                 }
-                            } else if(fieldType.equals(Boolean.class)){
-                                Boolean obj = (Boolean)ReflectionHelper.getFieldValue(object,fieldName);
-                                if(obj == null){
-                                    statement.setNull(index, Types.BOOLEAN);
-                                } else {
-                                    statement.setBoolean(index,obj);
-                                }
-                            } else if(fieldType.equals(Short.class)){
-                                Short obj = (Short)ReflectionHelper.getFieldValue(object,fieldName);
-                                if(obj == null){
-                                    statement.setNull(index, Types.SMALLINT);
-                                } else {
-                                    statement.setShort(index,obj);
-                                }
-                            } else if(fieldType.equals(Integer.class)){
-                                Integer obj = (Integer)ReflectionHelper.getFieldValue(object,fieldName) ;
-                                if(obj == null){
-                                    statement.setNull(index, Types.INTEGER);
-                                } else{
-                                    statement.setInt(index,obj);
-                                }
-                            } else if(fieldType.equals(Long.class)){
-                                Long obj = (Long)ReflectionHelper.getFieldValue(object,fieldName);
-                                if(obj == null){
-                                    statement.setNull(index, Types.BIGINT);
-                                } else {
-                                    statement.setLong(index,obj);
-                                }
-                            } else if(fieldType.equals(Float.class)){
-                                Float obj = (Float)ReflectionHelper.getFieldValue(object,fieldName);
-                                if(obj == null){
-                                    statement.setNull(index, Types.FLOAT);
-                                } else {
-                                    statement.setFloat(index,obj);
-                                }
-                            } else if(fieldType.equals(Double.class)){
-                                Double obj = (Double)ReflectionHelper.getFieldValue(object,fieldName);
-                                if(obj == null){
-                                    statement.setNull(index, Types.DOUBLE);
-                                } else {
-                                    statement.setDouble(index,obj);
-                                }
-                            } else if(fieldType.equals(Character.class) || fieldType.equals(String.class)){
-                                statement.setString(index,(String)ReflectionHelper.getFieldValue(object,fieldName));
-                            } else {
-                                statement.setObject(index,ReflectionHelper.getFieldValue(object,fieldName));
+                                index++;
                             }
-                            index++;
-                        }
-                        statement.execute();
-                    });
-
-
+                            statement.execute();
+                        });
+            System.out.println("Save: "+object.toString()+";");
+            System.out.println("Commit;");
+            getConnection().commit();
+        } catch (SQLException e){
+            getConnection().rollback();
+        }
     }
 
     public <T extends DataSet> T load(long id, Class<T> clz) throws SQLException {
         TExecutor executor = new TExecutor(getConnection());
-        return executor.execQuery(SqlQueryHelper.createSelectQuery(clz,id), result ->{
+        return executor.execSimpleSelect(SqlQueryHelper.createSelectQuery(clz),id, result ->{
             if(result.next()){
                 T obj = ReflectionHelper.instantiate(clz,result.getLong("ID"));
                 for(String fieldName : ReflectionHelper.getFieldNames(clz)){
@@ -127,7 +141,6 @@ public class DBServiceT extends DBServiceConnection {
                     } else {
                         ReflectionHelper.setFieldValue(obj,fieldName,result.getObject(fieldName));
                     }
-
                 }
                 return obj;
             } else {
@@ -135,6 +148,4 @@ public class DBServiceT extends DBServiceConnection {
             }
         });
     }
-
-
 }
