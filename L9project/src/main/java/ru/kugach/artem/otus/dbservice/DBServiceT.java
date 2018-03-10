@@ -10,18 +10,11 @@ public class DBServiceT extends DBServiceConnection {
 
     private void execDDL(String query) throws SQLException {
         TExecutor executor = new TExecutor(getConnection());
-        getConnection().setAutoCommit(false);
         try{
-            try{
-                executor.execUpdate(query);
-            } catch (java.sql.SQLSyntaxErrorException e){
-                System.out.println(query+"; "+e.getMessage());
-            }
+            executor.execUpdate(query);
             System.out.println("Exec DDL: "+query+";");
-            System.out.println("Commit;");
-            getConnection().commit();
-        } catch (SQLException e){
-            getConnection().rollback();
+        } catch (java.sql.SQLSyntaxErrorException e){
+            System.out.println(query+"; "+e.getMessage());
         }
     }
 
