@@ -2,13 +2,9 @@ package ru.kugach.artem.otus.cache;
 
 public interface CacheEngine<K ,V> {
 
-    void put(MyElement<K, V> element);
+    void put(K key, V value);
 
-    MyElement<K, V> get(K key);
-
-    int getHitCount();
-
-    int getMissCount();
+    V get(K key);
 
     void dispose();
 }

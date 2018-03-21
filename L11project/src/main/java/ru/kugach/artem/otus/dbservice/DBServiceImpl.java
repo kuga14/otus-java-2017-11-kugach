@@ -5,7 +5,6 @@ import ru.kugach.artem.otus.base.DBService;
 import ru.kugach.artem.otus.base.datasets.DataSet;
 import ru.kugach.artem.otus.base.datasets.StudentDataSet;
 import ru.kugach.artem.otus.cache.CacheEngineImpl;
-import ru.kugach.artem.otus.cache.MyElement;
 import ru.kugach.artem.otus.dbservice.dao.DAO;
 import ru.kugach.artem.otus.dbservice.dao.DefaultDAOImpl;
 import java.sql.Connection;
@@ -17,7 +16,7 @@ import java.util.Map;
 public class DBServiceImpl implements DBService {
 
     private static final Map<Class, Class> dataSetToDAO;
-    CacheEngineImpl cache;
+    private final CacheEngineImpl cache;
 
     static{
         Map<Class<?>,Class<?>> map = new HashMap<>();
@@ -67,16 +66,15 @@ public class DBServiceImpl implements DBService {
         S dao = (S) ReflectionHelper.instantiate((Class<? extends DAO>)dataSetToDAO.get(object.getClass()));
         dao.setConnection(connection);
         dao.save(object);
-        cache.put(new MyElement<>(
+        cache.put(
                 object.getId()+dao.getTableName(object.getClass()),
-                object)
+                object
         );
     }
 
     public <T extends DataSet, S extends DAO> T load(long id, Class<T> clz){
         S dao = (S) ReflectionHelper.instantiate(dataSetToDAO.get(clz));
-        MyElement<String, T> element = cache.get(id+dao.getTableName(clz));
-        T object = element == null ?  null : element.getValue();
+        T object = (T) cache.get(id+dao.getTableName(clz));
         if(object!= null) {
             return object;
         }

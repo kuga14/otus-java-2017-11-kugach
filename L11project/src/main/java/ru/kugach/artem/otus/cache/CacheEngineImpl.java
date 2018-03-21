@@ -30,14 +30,13 @@ public class CacheEngineImpl<K, V extends DataSet> implements CacheEngine<K, V> 
         this.isEternal = lifeTimeMs == 0 && idleTimeMs == 0 || isEternal;
     }
 
-    public void put(MyElement<K, V> element) {
+    public void put(K key, V value) {
         if (elements.size() == maxElements) {
             K firstKey = elements.keySet().iterator().next();
             remove(firstKey);
         }
 
-        K key = element.getKey();
-        elements.put(key, new SoftReference<>(element));
+        elements.put(key, new SoftReference<>(new MyElement<>(key,value)));
 
         if (!isEternal) {
             if (lifeTimeMs != 0) {
@@ -51,8 +50,8 @@ public class CacheEngineImpl<K, V extends DataSet> implements CacheEngine<K, V> 
         }
     }
 
-    public MyElement<K, V> get(K key) {
-        SoftReference softRef = (SoftReference) elements.get(key);
+    public V get(K key) {
+        SoftReference softRef = elements.get(key);
         MyElement<K, V> element =  (MyElement<K, V>) (softRef == null ? null : softRef.get());
         if (element != null) {
             hit++;
@@ -62,7 +61,7 @@ public class CacheEngineImpl<K, V extends DataSet> implements CacheEngine<K, V> 
             miss++;
             System.out.println("Miss");
         }
-        return element;
+        return element == null ? null : element.getValue();
     }
 
     public void remove(K key)
