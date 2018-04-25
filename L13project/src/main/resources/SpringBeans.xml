@@ -1,0 +1,15 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="dbService" class="ru.kugach.artem.otus.dbservice.DBServiceImpl">
+        <constructor-arg ref = "cacheEngine"/>
+    </bean>
+    <bean id="cacheEngine" class="ru.kugach.artem.otus.cache.CacheEngineImpl">
+        <constructor-arg index="0" value="50000"/>
+        <constructor-arg index="1" value="100000"/>
+        <constructor-arg index="2" value="0"/>
+        <constructor-arg index="3" value="false"/>
+    </bean>
+</beans>
